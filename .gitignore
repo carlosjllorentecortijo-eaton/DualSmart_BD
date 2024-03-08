@@ -1,0 +1,10 @@
+# STM32CubeIDE files
+.cproject
+.project
+.mxproject
+.settings
+
+# Builds and linker files
+*.ld
+COORD/
+DEVICE/
