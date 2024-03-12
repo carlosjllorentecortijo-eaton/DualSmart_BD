@@ -45,7 +45,7 @@ stm32_boot_mode_t readBootModeSTM32(void)
  * @param  None
  * @return ST8500 boot mode, boot from UART (0), or boot from SFLASH attached to ST8500 (1).
  */
-st8500_boot_mode_t readBootModeST8500(void)
+__weak st8500_boot_mode_t readBootModeST8500(void)
 {
 	/* LOW GPIO LEVEL  -> 0 -> Boot from UART */
 	/* HIGH GPIO LEVEL -> 1 -> Boot from FLASH */
@@ -132,7 +132,7 @@ void setBootPinsAsOutput(bool boot_st8500_from_uart)
  * @param  None
  * @return true, if MAC_SELECT is enabled, false otherwise.
  */
-bool readRfSelect(void)
+__weak bool readRfSelect(void)
 {
 	/* LOW GPIO LEVEL  -> 0 -> 915 module selected */
 	/* HIGH GPIO LEVEL -> 1 -> 868 module selected */
@@ -145,7 +145,7 @@ bool readRfSelect(void)
  * @param  None
  * @return STM32 boot mode, default (0), or in sleep mode (1).
  */
-bool readFCCSelect(void)
+__weak bool readFCCSelect(void)
 {
 	/* SWITCH UP   -> LOW GPIO LEVEL  -> 0 -> CENB */
 	/* SWITCH DOWN -> HIGH GPIO LEVEL -> 1 -> FCC  */
@@ -158,7 +158,7 @@ bool readFCCSelect(void)
  * @param  None
  * @return true, if MAC_SELECT is enabled, false otherwise.
  */
-bool readMacSelect(void)
+__weak bool readMacSelect(void)
 {
 	/* LOW GPIO LEVEL  -> 0 -> Normal mode */
 	/* HIGH GPIO LEVEL -> 1 -> MAC mode */
@@ -171,7 +171,7 @@ bool readMacSelect(void)
  * @param  None
  * @return true, if MAC_SELECT is enabled, false otherwise.
  */
-bool readModbusMasterSelect(void)
+__weak bool readModbusMasterSelect(void)
 {
 	/* LOW GPIO LEVEL  -> 0 -> Slave mode */
 	/* HIGH GPIO LEVEL -> 1 -> Master mode */

@@ -35,6 +35,7 @@
 #include <image_download.h>
 #include <passthrough.h>
 #include <print_task.h>
+#include <porting.h>
 
 /* USER CODE END Includes */
 
@@ -113,8 +114,6 @@ int main(void)
 #endif /* RESET_AT_START */
 
 	/* Reads the boot mode for ST8500 */
-//	bool passthrough_requested = (readBootModeSTM32()  == STM32_BOOT_PASSTHROUGH);
-	bool passthrough_requested = false;
 	bool download_requested    = (readBootModeST8500() == ST8500_BOOT_FROM_UART);
 
 #if ENABLE_LPMODE
@@ -145,13 +144,7 @@ int main(void)
 		PRINT(RESET_DISPLAY_STRING);
 	}
 #endif /* ENABLE_DOWNLOAD */
-
-  /* If passthrough mode is requested */
-  if (passthrough_requested == true)
-  {
-	/* Activates passthrough mode (program remains here), BOOT pins are left in output */
-	activatePassthrough();
-  }
+	passthrough_mode();
 
   /* USER CODE END 2 */
 

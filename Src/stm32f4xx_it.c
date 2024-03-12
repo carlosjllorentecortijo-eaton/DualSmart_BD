@@ -280,47 +280,5 @@ void DMA2_Stream7_IRQHandler(void)
 
 /* USER CODE BEGIN 1 */
 
-#pragma GCC optimize("-Ofast")
-
-/* Passthrough handler functions */
-
-/* This code needs to be as simple as possible, to maintain the execution agile */
-//void EXTI2_3_IRQHandler(void)
-void EXTI15_10_IRQHandler(void)
-{
-	if (__HAL_GPIO_EXTI_GET_IT(UIF_RX_Pin) != 0x00u)
-	{
-		if(UIF_RX_GPIO_Port->IDR & UIF_RX_Pin)/*Rising IT*/
-		{
-			__HAL_GPIO_EXTI_CLEAR_IT(UIF_RX_Pin);
-			HIF_TX_GPIO_Port->BSRR = HIF_TX_Pin; /*Set Pin*/
-		}
-		else if(!(UIF_RX_GPIO_Port->IDR & UIF_RX_Pin)) /*Falling IT*/
-		{
-			__HAL_GPIO_EXTI_CLEAR_IT(UIF_RX_Pin);
-			HIF_TX_GPIO_Port->BSRR = (uint32_t)HIF_TX_Pin << 16U; /*Reset Pin*/
-		}
-	}
-}
-
-/* This code needs to be as simple as possible, to maintain the execution agile */
-//void EXTI4_15_IRQHandler(void)
-void EXTI3_IRQHandler(void)
-{
-	if (__HAL_GPIO_EXTI_GET_IT(HIF_RX_Pin) != 0x00u)
-	{
-		if(HIF_RX_GPIO_Port->IDR & HIF_RX_Pin) /*Rising IT*/
-		{
-			__HAL_GPIO_EXTI_CLEAR_IT(HIF_RX_Pin);
-			UIF_TX_GPIO_Port->BSRR = UIF_TX_Pin;
-		}
-		else if (!(HIF_RX_GPIO_Port->IDR & HIF_RX_Pin)) /*Falling IT*/
-		{
-			__HAL_GPIO_EXTI_CLEAR_IT(HIF_RX_Pin);
-			UIF_TX_GPIO_Port->BSRR = (uint32_t)UIF_TX_Pin << 16U; /*Reset Pin*/
-		}
-	}
-}
-
 
 /* USER CODE END 1 */
