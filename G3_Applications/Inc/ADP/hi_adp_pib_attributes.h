@@ -81,6 +81,8 @@
 #define ADP_DESTINATIONADDRESSSET_ID     ((uint32_t)0x23)  /**< @brief adpDestinationAddressSet Attribute */
 #define ADP_DEFAULTCOORDROUTEENABLED     ((uint32_t)0x24)  /**< @brief adpDefaultCoordRouteEnabled Attribute */
 #define ADP_DISABLEDEFAULTROUTING_ID     ((uint32_t)0xF0)  /**< @brief adpDisableDefaultRouting Attribute */
+#define ADP_TRICKLEDATAENABLED_ID        ((uint32_t)0x29)  /**< @brief adpDisableDefaultRouting Attribute */
+#define ADP_CLUSTERTRICKLEENABLED_ID     ((uint32_t)0x30)  /**< @brief adpDisableDefaultRouting Attribute */
 /* Implementation Defined PIB attribute ID definitions */
 #define ADP_DATAGRAMTAG_ID               ((uint32_t)0x90)  /**< @brief adpDatagramTag Attribute: Define the DatagramTag for fragmentation dispatch. Incerased by one for each transmission */
 #define ADP_BRDSEQNUM_ID                 ((uint32_t)0x91)  /**< @brief adpBroadcastSeqNumber Attribute: Define the SequenceNumber for broadcast dispatch. Increased by one for each broadcast transmission */

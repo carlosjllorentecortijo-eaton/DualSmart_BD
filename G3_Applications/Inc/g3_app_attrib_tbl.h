@@ -60,7 +60,7 @@ extern "C" {
   */
 
 /* Attribute values */
-#define PAN_ID          0x781D	/* PAN ID to set */
+#define PAN_ID          0x8C57	/* PAN ID to set */
 #define COORD_ADDRESS   0x0000	/* Coordinator short address to set, must be set to 0 */
 
 #define RTE_GPIO   		0x3931 /* Value used to use GPIO0_6 ad TX, GPIO0_7 as RX */

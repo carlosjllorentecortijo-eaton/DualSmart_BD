@@ -43,7 +43,7 @@
 /* Server attributes */
 #define BOOT_SERVER_START_WAIT_TIME         		1		/**< @brief bootServerStartWaitTime: The time to wait before starting the discovery process, in seconds. If more PAN are present set this to 16 or more */
 #define BOOT_SERVER_DEFAULT_MAX_HOPS        		14  	/**< @brief bootServerDefaultMaxHops: The default MaxHops value used in LBP messages sent from the Server */
-#define BOOT_SERVER_DISCOVERY_TIME          		1  		/**< @brief bootServerDiscoveryTime: The duration in seconds of the active scan */
+#define BOOT_SERVER_DISCOVERY_TIME          		2  		/**< @brief bootServerDiscoveryTime: The duration in seconds of the active scan */
 #define BOOT_SERVER_FORCE_PAN_START         		1		/**< @brief bootServerForcePanStart: If True (0x01) force the start of the LBS, without taking into account the beacon caught during the discovery */
 
 /* IDS (EAP server NAI) */
@@ -51,7 +51,7 @@
 #define BOOT_SERVER_IDS_LEN                 		0  		/**< @brief bootServer_ID_S: the NAI length */
 
 /* Timing */
-#define BOOT_SERVER_PSK_GET_TIMEOUT          		1000	/**< @brief bootServerPSKGetTimeout: The time to wait for the Host to send the PSK to be used, in milliseconds */
+#define BOOT_SERVER_PSK_GET_TIMEOUT          		10000	/**< @brief bootServerPSKGetTimeout: The time to wait for the Host to send the PSK to be used, in milliseconds */
 #define BOOT_SERVER_JOINING_IGNORE_TIME				500  	/**< @brief bootServerJoiningIgnoreTime: After the first Joining message from an LBD, ignore the following ones for the duration of this time, in milliseconds */
 #define BOOT_SERVER_JOINING_TABLE_ENTRY_TTL			70		/**< @brief bootServerJoiningTableEntryTTL: Time, in seconds, after which an entry in the Joining Table is considered expired and can be reset */
 
@@ -64,7 +64,7 @@
 #define BOOT_CLIENT_LQI_THRESHOLD           		52		/**< @brief bootDeviceLQIThreshold: The LQI value below which the received PAN descriptors are ignored */
 #define BOOT_CLIENT_START_WAIT_TIME         		2		/**< @brief bootDeviceStartWaitTime: The time to wait before starting the discovery process, in seconds */
 #define BOOT_CLIENT_PANSORT_TIMEOUT					3000	/**< @brief bootDevicePANSortTimeout: The time (in milliseconds) that the internal bootstrap application waits for the external host the device PAN description sorting results before sorting by itself the descriptors */
-#define BOOT_CLIENT_ASSOCIATION_MAX_RETRIES   		3		/**< @brief bootDeviceAssociationMaxRetries: the number of time a device tries to associate with the same LBA */
+#define BOOT_CLIENT_ASSOCIATION_MAX_RETRIES   		10		/**< @brief bootDeviceAssociationMaxRetries: the number of time a device tries to associate with the same LBA */
 #define BOOT_CLIENT_ASSOCIATION_RAND_WAIT_TIME 		30		/**< @brief bootDeviceAssociationRandWaitTime: the maximum of the random time (in seconds) window before trying to attempt to the same LBA */
 
 #define BOOT_CLIENT_DEFAULT_MAX_HOPS        		14  	/**< @brief The default MaxHops value used in LBP messages sent from the Device */

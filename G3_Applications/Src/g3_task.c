@@ -38,7 +38,7 @@
 
 
 /* Definitions */
-#define TIMEOUT_CNF			90000 	/* Timeout for CNF reception, in ms */
+#define TIMEOUT_CNF			10000 	/* Timeout for CNF reception, in ms */
 
 
 #define CHANGE_BAUDRATE     (HIF_BAUDRATE != 115200) /* Determines if the baudrate has to be changed */

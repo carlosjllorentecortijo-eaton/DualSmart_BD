@@ -68,7 +68,7 @@ extern "C" {
 /* Definitions */
 
 #if IS_COORD
-#define G3_APP_MAX_DEVICES_IN_PAN 			16U			/* Maximum number of devices that the coordinator can manage */
+#define G3_APP_MAX_DEVICES_IN_PAN 			160U			/* Maximum number of devices that the coordinator can manage */
 #define KEEP_ALIVE_LIVES_N					2U			/* Number of pings that must fail before the kick-out */
 #else
 #define DEVICE_RECONN_TIME               	(30000U)	/* Reconnection time for the device */

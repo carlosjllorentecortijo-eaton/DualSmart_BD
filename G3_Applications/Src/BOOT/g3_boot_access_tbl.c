@@ -48,8 +48,9 @@
 /* G3 Boot access table  */
 /* If black list mode is enabled, it acts like a blacklist, otherwise it acts as a whitelist */
 static g3_boot_data_t g3_boot_access_table[] = {
+    /*
     {
-        .short_addr = 1,	/* 1 is the first short address for devices */
+        .short_addr = 1,
         .ext_addr 	= DEVICE_1_EXT_ADDR,
         .psk 		= DEFAULT_PSK
     },
@@ -58,6 +59,7 @@ static g3_boot_data_t g3_boot_access_table[] = {
         .ext_addr 	= DEVICE_2_EXT_ADDR,
         .psk 		= DEFAULT_PSK
     },
+	*/
 
     /* Add more devices here... short addresses must be consecutive
      * {

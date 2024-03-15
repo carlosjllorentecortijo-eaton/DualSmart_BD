@@ -32,7 +32,7 @@
 /* Definitions */
 
 /* Tiing */
-#define TIMEOUT_HWRESET      		3000 /* In ms, timeout for the reception of the initial HI-HWRESET-CNF */
+#define TIMEOUT_HWRESET      		5000 /* In ms, timeout for the reception of the initial HI-HWRESET-CNF */
 #define TIMEOUT_BAUDRATE_SET		1000 /* In ms, timeout for the reception of the HI-BAUDRATE_SET-CNF */
 #define TIMEOUT_TRACE				1000 /* In ms, timeout for the reception of the HI-TRACE-CNF */
 #define TIMEOUT_FAST_RESTORE		1500 /* In ms, timeout for the reception of the HI-NVM-CNF or BOOT-DEV-START-CNF */

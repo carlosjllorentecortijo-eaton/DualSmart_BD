@@ -173,7 +173,7 @@ extern "C" {
 #define ENABLE_EVENTINDICATION_ACTKEY			1	/* Default: 1 */
 #define ENABLE_EVENTINDICATION_PANID			1	/* Default: 1, must be set to 1 for Fast Restore */
 #define ENABLE_EVENTINDICATION_SHORTADDR		1	/* Default: 1, must be set to 1 for Fast Restore */
-#define ENABLE_EVENTINDICATION_THERMEV			0	/* Default: 0 */
+#define ENABLE_EVENTINDICATION_THERMEV			1	/* Default: 0 */
 
 #define ENABLE_EVENTINDICATION_TMRTX			0	/* Default: 0 */
 #define ENABLE_EVENTINDICATION_TMRRX			0	/* Default: 0 */
@@ -216,7 +216,7 @@ extern "C" {
 #define DEBUG_USER_IT			DEBUG_LEVEL_FULL	/* User Image Transfer */
 
 /* Other debug prints */
-#define DEBUG_SFLASH            DEBUG_LEVEL_FULL	/* External SPI FLASH */
+#define DEBUG_SFLASH            DEBUG_LEVEL_WARNING	/* External SPI FLASH */
 
 
 /* Settings for Memory pool debug */
