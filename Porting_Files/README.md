@@ -32,3 +32,23 @@ To successfully port the following must be done.
 - ENABLE_EVENTINDICATION_MEMLEAK
 - ENABLE_EVENTINDICATION_TIMERERR
 10. Exchange the file *G3_Applications/Src/g3_app_keep_alive.c* with *Porting_Files/G3_Applications/Src/g3_app_keep_alive.c* (the original uses the state of a LED to check Keep-Alive status).
+11. Next, some steps related to modification on *User_Applications/Src/user_terminal.c* are presented. The file can be directly exchanged by the one exisiting in the porting folder. (ONLY APPLIES FOR THE CURRENT FW VERSION 2.3.0).
+12. In *User_Applications/Src/user_terminal.c* add a new value to the *user_term_option_enum* and *user_term_state_enum* named *user_term_opt_custom* and *USER_TERM_CUSTOM* respectively.
+13. In *User_Applications/Src/user_terminal.c*, function *user_term_state_main_menu* add a new print to show new user option.
+`PRINT("%u) Custom tests\n",					user_term_opt_custom);`
+Add also a new case in the switch just below the print to deal with the command once input by the user.
+`case user_term_opt_custom:
+				user_term_set_state(USER_TERM_CUSTOM);
+				break;`
+14. In *User_Applications/Src/user_terminal.c*, add the function `user_term_state_custom` to the state function table (*user_term_func_tbl*).
+15. In *User_Applications/Src/user_task.c*, function *user_app_init()* add the *init_commands_fsm* function.
+16. Create function *user_term_reset_to_main* in *User_Applications/Src/user_terminal.c* as
+``
+void user_term_reset_to_main() {
+	user_term_reset_to_state(USER_TERM_ST_MAIN);
+}
+`` 
+and add its declaration to the header file *User_Applications/Inc/user_terminal.h* as `void user_term_reset_to_main();`.
+17. Add `reset_custom_user_if_fsm();` to the function *user_term_parse_specific_command* in *User_Applications/Src/user_terminal.c* (inside the if that checks if the escape has been pressed).
+18. Add `#include "dualSmart_commands.h"` to *User_Applications/Src/user_task.c*.
+19. Add `#include "custom_user_if_fsm.h"` to *User_Applications/Src/user_terminal.c*.
