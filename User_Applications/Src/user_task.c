@@ -26,6 +26,7 @@
 #include <user_mac.h>
 #include <user_task.h>
 #include <user_terminal.h>
+#include "dualSmart_commands.h"
 
 /** @addtogroup User_App
   * @{
@@ -139,7 +140,7 @@ void user_app_init(void)
 	}
 
 	/* Add here more initializations for the User task */
-	/* ... */
+	init_dualSmart_commands();
 }
 
 /**

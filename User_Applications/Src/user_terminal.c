@@ -33,6 +33,7 @@
 #include <user_terminal.h>
 #include <main.h>
 #include <version.h>
+#include "custom_user_if_fsm.h"
 
 /** @addtogroup User_App
  * @{
@@ -114,6 +115,7 @@ typedef enum user_term_option_enum
 	user_term_opt_rekeying,
 #endif
 	user_term_opt_reset,
+	user_term_opt_custom,
 	user_term_opt_count
 } user_term_option_t;
 
@@ -142,6 +144,7 @@ typedef enum user_term_state_enum
 	USER_TERM_ST_REKEYING,			/*!< User Terminal state for GMK update/Re-keying */
 #endif
 	USER_TERM_ST_RESET,				/*!< User Terminal state for system reset */
+	USER_TERM_CUSTOM,
 	USER_TERM_ST_CNT
 } user_term_state_t;
 
@@ -436,7 +439,7 @@ static void user_term_set_state(user_term_state_t new_state)
  * @param new_state State to set.
  * @retval None
  */
-static void user_term_reset_to_state(user_term_state_t new_state)
+void user_term_reset_to_state(user_term_state_t new_state)
 {
 	user_if_init_rx_fifo();  /* Flush UART Rx FIFO */
 
@@ -475,6 +478,10 @@ static void user_term_reset_to_state(user_term_state_t new_state)
 	user_term_set_state(new_state);
 
 	memset(&user_term_transfer, 0, sizeof(user_term_transfer));
+}
+
+void user_term_reset_to_main() {
+	user_term_reset_to_state(USER_TERM_ST_MAIN);
 }
 
 /**
@@ -656,6 +663,7 @@ static void user_term_parse_specific_command(void)
 	{
 		PRINT_NOTS("[["); /* Undo the ESC of the local echo, on the terminal */
 		user_term_reset_to_state(USER_TERM_ST_MAIN);
+		reset_custom_user_if_fsm();
 	}
 }
 
@@ -1522,6 +1530,7 @@ static void user_term_state_main_menu(user_term_action_t action)
 #endif
 		PRINT("%u) Reset\n",						user_term_opt_reset);
 		/* Append other tests to the related menu here... */
+		PRINT("%u) Custom tests\n",					user_term_opt_custom);
 
 		PRINT_BLANK_LINE();
 		PRINT("Press ESCAPE key then ENTER at any time to go back to this menu\n");
@@ -1573,6 +1582,9 @@ static void user_term_state_main_menu(user_term_action_t action)
 #endif
 			case user_term_opt_reset:
 				user_term_set_state(USER_TERM_ST_RESET);
+				break;
+			case user_term_opt_custom:
+				user_term_set_state(USER_TERM_CUSTOM);
 				break;
 			default:
 				PRINT(pString_NoSuitableAnswerFound);

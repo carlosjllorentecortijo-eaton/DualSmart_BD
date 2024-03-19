@@ -14,8 +14,8 @@
   *******************************************************************************/
 
 
-#ifndef USER_TERMINAL_H
-#define USER_TERMINAL_H
+#ifndef USER_TERMINAL
+#define USER_TERMINAL
 
 #ifdef __cplusplus
 extern "C" {
@@ -68,6 +68,8 @@ void UserTerminal_FsmManager_MAC(void);
 
 void UserTerminal_TimeoutCallback(void *argument);
 
+void user_term_reset_to_main();
+
 /**
   * @}
   */
@@ -84,6 +86,6 @@ void UserTerminal_TimeoutCallback(void *argument);
 }
 #endif
 
-#endif /* USER_TERMINAL_H */
+#endif /* USER_TERMINAL */
 
 /*********************** (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
