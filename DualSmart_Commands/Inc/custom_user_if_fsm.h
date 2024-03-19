@@ -13,6 +13,7 @@
 
 /* ---------------------------------------------------- INCLUDES ---------------------------------------------------- */
 #include <stdint.h>
+#include "user_terminal.h"
 #include "fsm.h"
 
 /* ----------------------------------------------------- TYPEDEF ---------------------------------------------------- */
@@ -32,7 +33,7 @@ struct custom_user_if_fsm_s {
 
 /* ------------------------------------------------- PUBLIC FUNCTION ------------------------------------------------ */
 void reset_custom_user_if_fsm();
-void user_term_state_custom();
+void user_term_state_custom(user_term_action_t action);
 void init_custom_user_if_fsm();
 
 #endif /* CUSTOM_USER_IF_FSM */

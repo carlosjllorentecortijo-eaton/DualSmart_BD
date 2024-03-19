@@ -60,6 +60,14 @@ extern "C" {
   * @{
   */
 
+/* Typedefs */
+typedef enum user_term_action_str
+{
+	USER_TERM_ACT_DISPMENU,	/* Menu display */
+	USER_TERM_ACT_PROCSEL,		/* Process selection */
+	USER_TERM_ACT_CNT
+} user_term_action_t;
+
 /* Public functions */
 void UserTerminal_Init(void);
 

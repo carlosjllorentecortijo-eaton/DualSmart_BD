@@ -120,7 +120,7 @@ typedef enum user_term_option_enum
 } user_term_option_t;
 
 typedef enum user_term_state_enum
-{ 
+{
 	USER_TERM_ST_ENTRY,        		/*!< User Terminal state for terminal entry */
 	USER_TERM_ST_CONNECTION,		/*!< User Terminal state for UDP connection setup */
 	USER_TERM_ST_MAIN,       		/*!< User Terminal state for test main */
@@ -147,13 +147,6 @@ typedef enum user_term_state_enum
 	USER_TERM_CUSTOM,
 	USER_TERM_ST_CNT
 } user_term_state_t;
-
-typedef enum user_term_action_str
-{
-	USER_TERM_ACT_DISPMENU,	/* Menu display */
-	USER_TERM_ACT_PROCSEL,		/* Process selection */
-	USER_TERM_ACT_CNT
-} user_term_action_t;
 
 /* For re-keying and device management */
 typedef enum user_term_request_step_enum
@@ -2462,6 +2455,7 @@ static user_term_func* const user_term_func_tbl[USER_TERM_ST_CNT] =
 		/* REKEYING				*/ user_term_state_rekeying,
 #endif
 		/* RESET				*/ user_term_state_reset,
+		/* CUSTOM				*/ user_term_state_custom,
 };
 
 /**

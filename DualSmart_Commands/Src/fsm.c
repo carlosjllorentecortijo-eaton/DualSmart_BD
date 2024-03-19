@@ -10,6 +10,7 @@
  */
 
 #include "fsm.h"
+#include "mem_pool.h"
 
 /**
  * @brief This function allocates a new FSM.
@@ -20,7 +21,7 @@
  * @return fsm_t* pointer to state machine
  */
 fsm_t* fsm_new (int state, fsm_trans_t* tt, void* user_data){
-  fsm_t* this = (fsm_t*) malloc (sizeof (fsm_t));
+  fsm_t* this = (fsm_t*) MEMPOOL_MALLOC (sizeof (fsm_t));
   fsm_init (this, state, tt, user_data);
   return this;
 }
@@ -45,7 +46,7 @@ void fsm_init (fsm_t* this, int state, fsm_trans_t* tt, void* user_data){
  * @param this state machine object to be deleted
  */
 void fsm_destroy (fsm_t* this){
-  free(this);
+  MEMPOOL_FREE(this);
 }
 
 /**

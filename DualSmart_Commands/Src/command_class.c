@@ -35,11 +35,11 @@ void action_on_selection(uint8_t ui8_user_input, custom_user_if_fsm_t custom_use
     for (int i = 0; i < NUMBER_COMMANDS; i++){
         if ( p_command_list[i].ui8_menu_number == ui8_user_input ){
             p_command_list[i].pf_action_on_selection_cb(custom_user_if_fsm);
-            break;
+            return;
         }
     }
 
-    PRINT("No command found with user input %u", ui8_user_input);
+    PRINT("No command found with user input %u\n", ui8_user_input);
 }
 
 /**
@@ -51,11 +51,11 @@ void action_on_rx(uint8_t ui8_command_id) {
     for (int i = 0; i < NUMBER_COMMANDS; i++){
         if ( p_command_list[i].ui8_command_id == ui8_command_id ){
             p_command_list[i].pf_action_on_rx_cb();
-            break;
+            return;
         }
     }
 
-    PRINT("No command found with command id %u", ui8_command_id);
+    PRINT("No command found with command id %u\n", ui8_command_id);
 }
 
 /**

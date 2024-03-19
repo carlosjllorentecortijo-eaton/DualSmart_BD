@@ -26,6 +26,7 @@ enum fsm_states {
 };
 
 /* ------------------------------------------- GUARD FUNCTION DECLARATION ------------------------------------------- */
+static int i_always(fsm_t* this);
 static int i_check_input_command(fsm_t* this);
 static int i_check_command_not_ended(fsm_t* this);
 static int i_check_command_ended(fsm_t* this);
@@ -39,7 +40,7 @@ static void change_user_if_state(fsm_t* this);
 static custom_user_if_fsm_t custom_user_if_fsm;
 
 static fsm_trans_t tt[] = {
-    {IDLE,              NULL,                       SHOW_MENU,          print_menu},
+    {IDLE,              i_always,                   SHOW_MENU,          print_menu},
     {SHOW_MENU,         i_check_input_command,      PROCESS_COMMAND,    execute_command},
     {PROCESS_COMMAND,   i_check_command_not_ended,  PROCESS_COMMAND,    execute_command},
     {PROCESS_COMMAND,   i_check_command_ended,      IDLE,               change_user_if_state},
@@ -54,11 +55,21 @@ static fsm_trans_t tt[] = {
  * @param this 
  * @return int 
  */
+static int i_always(fsm_t* this) {
+    return 1;
+}
+
+/**
+ * @brief 
+ * 
+ * @param this 
+ * @return int 
+ */
 static int i_check_input_command(fsm_t* this) {
     user_input_t* user_input = user_if_get_input();
 
     if (PARSE_CMD_ANY_CHAR) {
-        custom_user_if_fsm.ui8_actual_command = GET_CMD_DIGIT();
+        custom_user_if_fsm.ui8_actual_command = (uint8_t)GET_CMD_DIGIT();
         return 1;
     }
 
@@ -125,14 +136,16 @@ void reset_custom_user_if_fsm() {
 
     custom_user_if_fsm.ui8_command_ended = 0;
     custom_user_if_fsm.ui8_actual_command = 0;
-    MEMPOOL_FREE(custom_user_if_fsm.user_data);
+    if ( custom_user_if_fsm.user_data != NULL ) {
+        MEMPOOL_FREE(custom_user_if_fsm.user_data);
+    }
 }
 
 /**
  * @brief Function called from the main process. Just fires the FSM.
  * 
  */
-void user_term_state_custom() {
+void user_term_state_custom(user_term_action_t action) {
     fsm_fire(custom_user_if_fsm.p_fsm);
 }
 

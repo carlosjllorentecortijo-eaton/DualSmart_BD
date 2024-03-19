@@ -40,7 +40,7 @@ Add also a new case in the switch just below the print to deal with the command 
 `case user_term_opt_custom:
 				user_term_set_state(USER_TERM_CUSTOM);
 				break;`
-14. In *User_Applications/Src/user_terminal.c*, add the function `user_term_state_custom` to the state function table (*user_term_func_tbl*).
+14. In *User_Applications/Src/user_terminal.c*, add the function `user_term_state_custom` to the state function table (*user_term_func_tbl*) as the last element (after `user_term_state_reset`).
 15. In *User_Applications/Src/user_task.c*, function *user_app_init()* add the *init_commands_fsm* function.
 16. Create function *user_term_reset_to_main* in *User_Applications/Src/user_terminal.c* as
 ``
@@ -52,3 +52,4 @@ and add its declaration to the header file *User_Applications/Inc/user_terminal.
 17. Add `reset_custom_user_if_fsm();` to the function *user_term_parse_specific_command* in *User_Applications/Src/user_terminal.c* (inside the if that checks if the escape has been pressed).
 18. Add `#include "dualSmart_commands.h"` to *User_Applications/Src/user_task.c*.
 19. Add `#include "custom_user_if_fsm.h"` to *User_Applications/Src/user_terminal.c*.
+20. Move `user_term_action_t` typedef declaration to the header file *User_Applications/Inc/user_terminal.h*.

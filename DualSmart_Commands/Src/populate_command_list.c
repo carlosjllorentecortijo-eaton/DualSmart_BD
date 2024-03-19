@@ -32,6 +32,7 @@ command_class_t p_command_list[NUMBER_COMMANDS];
 /* ------------------------------------------- COMMAND FUNCTION DEFINITION ------------------------------------------ */
 
 /* -------------------------------------------------- SINGLE LED ON ------------------------------------------------- */
+#if IS_COORD
 void single_led_on_on_selection_cb(custom_user_if_fsm_t custom_user_if_fsm) {
     static int step = 0;
 
@@ -54,6 +55,11 @@ void single_led_on_on_selection_cb(custom_user_if_fsm_t custom_user_if_fsm) {
                 device_count++;
             }
         } while (boot_device != NULL);
+
+        if ( device_count == 0 ) {
+            PRINT("No connected devices\n");
+        }
+
         PRINT_BLANK_LINE();
 
         step++;
@@ -64,6 +70,7 @@ void single_led_on_on_selection_cb(custom_user_if_fsm_t custom_user_if_fsm) {
 
         if (PARSE_CMD_ANY_CHAR) {
         	ui8_node_id = (uint8_t)atoi(user_input->payload);
+            PRINT("Sending LED ON to node id %u\n", ui8_node_id);
             UserG3_SendUdpDataToShortAddress(0, ui8_node_id, &ui8_command, 1);
             
             step = 0;
@@ -71,6 +78,11 @@ void single_led_on_on_selection_cb(custom_user_if_fsm_t custom_user_if_fsm) {
         }
     }
 }
+#else
+void single_led_on_on_selection_cb(){
+    ;
+}
+#endif
 
 void single_led_on_on_rx_cb(){
     ;
@@ -108,7 +120,7 @@ void populate_command_list() {
 
     /* Command SINGLE LED ON */
     strcpy(command.ui8_menu_text, "Turn a single LED On");
-    command.ui8_menu_number = 0;
+    command.ui8_menu_number = 1;
     command.ui8_command_id = COMMAND_ID_SINGLE_LED_ON;
     command.pf_action_on_selection_cb = single_led_on_on_selection_cb;
     command.pf_action_on_rx_cb = single_led_on_on_rx_cb;
@@ -117,7 +129,7 @@ void populate_command_list() {
 
     /* Command SINGLE LED OFF */
     strcpy(command.ui8_menu_text, "Turn a single LED Off");
-    command.ui8_menu_number = 1;
+    command.ui8_menu_number = 2;
     command.ui8_command_id = COMMAND_ID_SINGLE_LED_OFF;
     command.pf_action_on_selection_cb = single_led_off_on_selection_cb;
     command.pf_action_on_rx_cb = single_led_off_on_rx_cb;
@@ -126,7 +138,7 @@ void populate_command_list() {
 
     /* Command ALL LEDs ON */
     strcpy(command.ui8_menu_text, "Turn all LEDs On");
-    command.ui8_menu_number = 2;
+    command.ui8_menu_number = 3;
     command.ui8_command_id = COMMAND_ID_ALL_LED_ON;
     command.pf_action_on_selection_cb = all_led_on_on_selection_cb;
     command.pf_action_on_rx_cb = single_led_on_on_rx_cb;
@@ -135,7 +147,7 @@ void populate_command_list() {
 
     /* Command SINGLE LED OFF */
     strcpy(command.ui8_menu_text, "Turn all LEDs Off");
-    command.ui8_menu_number = 3;
+    command.ui8_menu_number = 4;
     command.ui8_command_id = COMMAND_ID_ALL_LED_OFF;
     command.pf_action_on_selection_cb = all_led_off_on_selection_cb;
     command.pf_action_on_rx_cb = all_led_off_on_rx_cb;

@@ -11,6 +11,8 @@
 
 /* ---------------------------------------------------- INCLUDES ---------------------------------------------------- */
 #include "dualSmart_commands.h"
+#include "custom_user_if_fsm.h"
+#include "command_class.h"
 
 /**
  * @brief This function initializes the command list, and the RX and TX related FSMs.

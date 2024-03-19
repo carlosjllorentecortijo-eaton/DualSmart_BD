@@ -38,9 +38,7 @@ struct command_class_s {
     char ui8_menu_text[128];
     uint8_t ui8_menu_number;
     uint8_t ui8_command_id;
-    #if IS_COORD
     void (*pf_action_on_selection_cb)(custom_user_if_fsm_t custom_user_if_fsm);
-    #endif
     void (*pf_action_on_rx_cb)(void);
     void* p_user_data;
 };
