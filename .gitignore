@@ -2,6 +2,5 @@
 .vscode/
 
 # Builds and linker files
-*.ld
 COORD/
 DEVICE/
