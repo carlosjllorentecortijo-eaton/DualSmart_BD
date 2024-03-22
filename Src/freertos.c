@@ -30,6 +30,7 @@
 
 /* Private typedef -----------------------------------------------------------*/
 typedef StaticTask_t osStaticThreadDef_t;
+typedef StaticSemaphore_t osStaticMutexDef_t;
 /* USER CODE BEGIN PTD */
 
 /* USER CODE END PTD */
@@ -60,6 +61,26 @@ const osThreadAttr_t default_task_attributes = {
   .stack_size = sizeof(default_taskBuffer),
   .priority = (osPriority_t) osPriorityNormal,
 };
+/* Definitions for custom_user_rx_ */
+osThreadId_t custom_user_rx_Handle;
+uint32_t custom_user_rx_Buffer[ 128 ];
+osStaticThreadDef_t custom_user_rx_ControlBlock;
+const osThreadAttr_t custom_user_rx__attributes = {
+  .name = "custom_user_rx_",
+  .cb_mem = &custom_user_rx_ControlBlock,
+  .cb_size = sizeof(custom_user_rx_ControlBlock),
+  .stack_mem = &custom_user_rx_Buffer[0],
+  .stack_size = sizeof(custom_user_rx_Buffer),
+  .priority = (osPriority_t) osPriorityLow,
+};
+/* Definitions for custom_user_rx_mutex */
+osMutexId_t custom_user_rx_mutexHandle;
+osStaticMutexDef_t custom_user_rx_mutexControlBlock;
+const osMutexAttr_t custom_user_rx_mutex_attributes = {
+  .name = "custom_user_rx_mutex",
+  .cb_mem = &custom_user_rx_mutexControlBlock,
+  .cb_size = sizeof(custom_user_rx_mutexControlBlock),
+};
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -70,6 +91,7 @@ extern void FreeRTOS_DefaultInit(void);
 /* USER CODE END FunctionPrototypes */
 
 void start_default_task(void *argument);
+void start_custom_user_rx(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -118,6 +140,9 @@ void MX_FREERTOS_Init(void) {
   FreeRTOS_DefaultInit();
 
   /* USER CODE END Init */
+  /* Create the mutex(es) */
+  /* creation of custom_user_rx_mutex */
+  custom_user_rx_mutexHandle = osMutexNew(&custom_user_rx_mutex_attributes);
 
   /* USER CODE BEGIN RTOS_MUTEX */
   /* add mutexes, ... */
@@ -138,6 +163,9 @@ void MX_FREERTOS_Init(void) {
   /* Create the thread(s) */
   /* creation of default_task */
   default_taskHandle = osThreadNew(start_default_task, NULL, &default_task_attributes);
+
+  /* creation of custom_user_rx_ */
+  custom_user_rx_Handle = osThreadNew(start_custom_user_rx, (void*) &custom_user_rx_mutexHandle, &custom_user_rx__attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -172,6 +200,24 @@ __weak void start_default_task(void *argument)
     osDelay(1);
   }
   /* USER CODE END start_default_task */
+}
+
+/* USER CODE BEGIN Header_start_custom_user_rx */
+/**
+* @brief Function implementing the custom_user_rx_ thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_start_custom_user_rx */
+__weak void start_custom_user_rx(void *argument)
+{
+  /* USER CODE BEGIN start_custom_user_rx */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END start_custom_user_rx */
 }
 
 /* Private application code --------------------------------------------------*/
