@@ -10,6 +10,7 @@
  */
 
 /* ---------------------------------------------------- INCLUDES ---------------------------------------------------- */
+#include <stdlib.h>
 #include "mem_pool.h"
 #include "user_if.h"
 #include "command_class.h"
@@ -69,7 +70,7 @@ static int i_check_input_command(fsm_t* this) {
     user_input_t* user_input = user_if_get_input();
 
     if (PARSE_CMD_ANY_CHAR) {
-        custom_user_if_fsm.ui8_actual_command = (uint8_t)GET_CMD_DIGIT();
+        custom_user_if_fsm.ui8_actual_command = (uint8_t)atoi(user_input->payload);;
         return 1;
     }
 
@@ -111,7 +112,7 @@ static void print_menu(fsm_t* this) {
  * @param this 
  */
 static void execute_command(fsm_t* this) {
-    action_on_selection(custom_user_if_fsm.ui8_actual_command, custom_user_if_fsm);
+    action_on_selection(custom_user_if_fsm.ui8_actual_command, &custom_user_if_fsm);
 }
 
 /**
@@ -147,6 +148,10 @@ void reset_custom_user_if_fsm() {
  */
 void user_term_state_custom(user_term_action_t action) {
     fsm_fire(custom_user_if_fsm.p_fsm);
+
+    if ( custom_user_if_fsm.ui8_command_ended ) {
+		PRINT("To return to the main menu, press ENTER\n");
+	}
 }
 
 /**

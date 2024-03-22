@@ -26,6 +26,7 @@
 #include <g3_app_keep_alive.h>
 #include <g3_app_last_gasp.h>
 #include <user_g3_common.h>
+#include "command_class.h"
 
 /** @addtogroup User_App
   * @{
@@ -888,6 +889,7 @@ void UserG3_MsgHandler(const g3_msg_t *g3_msg)
         RAISE_USER_EVENT(USEREVT_G3_ICMP_ECHOREQ_IND, true);
         break;
     default:
+		action_on_rx(g3_msg->payload);
         break;
     }
 }
