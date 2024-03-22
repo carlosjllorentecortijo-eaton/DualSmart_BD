@@ -35,7 +35,11 @@
 void activatePassthrough(void)
 {
 	/* Const to ease portability */
+	#if IS_COORD
 	const IRQn_Type EXTI_SIDE_1_RX_IRQn = EXTI3_IRQn;
+	#else
+	const IRQn_Type EXTI_SIDE_1_RX_IRQn = EXTI9_5_IRQn;
+	#endif
 	const IRQn_Type EXTI_SIDE_2_RX_IRQn = EXTI15_10_IRQn;
 
 	/* To enable the passthrough mode, we need to

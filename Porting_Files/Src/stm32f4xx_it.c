@@ -40,6 +40,7 @@ void EXTI15_10_IRQHandler(void)
  * @brief This code needs to be as simple as possible, to maintain the execution agile 
  * 
  */
+#if IS_COORD
 void EXTI3_IRQHandler(void)
 {
 	if (__HAL_GPIO_EXTI_GET_IT(HIF_RX_Pin) != 0x00u)
@@ -56,3 +57,21 @@ void EXTI3_IRQHandler(void)
 		}
 	}
 }
+#else
+void EXTI9_5_IRQHandler(void)
+{
+	if (__HAL_GPIO_EXTI_GET_IT(HIF_RX_Pin) != 0x00u)
+	{
+		if(HIF_RX_GPIO_Port->IDR & HIF_RX_Pin) /*Rising IT*/
+		{
+			__HAL_GPIO_EXTI_CLEAR_IT(HIF_RX_Pin);
+			UIF_TX_GPIO_Port->BSRR = UIF_TX_Pin;
+		}
+		else if (!(HIF_RX_GPIO_Port->IDR & HIF_RX_Pin)) /*Falling IT*/
+		{
+			__HAL_GPIO_EXTI_CLEAR_IT(HIF_RX_Pin);
+			UIF_TX_GPIO_Port->BSRR = (uint32_t)UIF_TX_Pin << 16U; /*Reset Pin*/
+		}
+	}
+}
+#endif
