@@ -53,3 +53,5 @@ and add its declaration to the header file *User_Applications/Inc/user_terminal.
 18. Add `#include "dualSmart_commands.h"` to *User_Applications/Src/user_task.c*.
 19. Add `#include "custom_user_if_fsm.h"` to *User_Applications/Src/user_terminal.c*.
 20. Move `user_term_action_t` typedef declaration to the header file *User_Applications/Inc/user_terminal.h*.
+21. Add `#include "command_class.h"` to *User_Applications/Src/user_g3_common.c*.
+22. Add `action_on_rx(g3_msg->payload);` in the `default` case of the function `UserG3_MsgHandler` in file *User_Applications/Src/user_g3_common.c*.
