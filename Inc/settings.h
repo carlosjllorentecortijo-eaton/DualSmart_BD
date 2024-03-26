@@ -86,7 +86,7 @@ extern "C" {
 #endif
 
 /* Enable/disable features */
-#define ENABLE_ICMP_KEEP_ALIVE		1	/* Enable the keep alive feature */
+#define ENABLE_ICMP_KEEP_ALIVE		0	/* Enable the keep alive feature */
 #define ENABLE_DOWNLOAD				1	/* Enable the image download feature */
 #define ENABLE_IMAGE_TRANSFER		1	/* Enable the image transfer feature */
 #define ENABLE_SFLASH_MANAGEMENT	1	/* Enable the SPI FLASH management feature */

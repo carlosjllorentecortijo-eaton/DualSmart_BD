@@ -25,8 +25,8 @@
 #include <user_image_transfer.h>
 #include <user_mac.h>
 #include <user_task.h>
+#include <DualSmartCommands.h>
 #include <user_terminal.h>
-#include "dualSmart_commands.h"
 
 /** @addtogroup User_App
   * @{

@@ -31,9 +31,9 @@
 #include <user_image_transfer.h>
 #include <user_mac.h>
 #include <user_terminal.h>
+#include <CustomUserIfFsm.h>
 #include <main.h>
 #include <version.h>
-#include "custom_user_if_fsm.h"
 
 /** @addtogroup User_App
  * @{
