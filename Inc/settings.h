@@ -86,7 +86,7 @@ extern "C" {
 #endif
 
 /* Enable/disable features */
-#define ENABLE_ICMP_KEEP_ALIVE		0	/* Enable the keep alive feature */
+#define ENABLE_ICMP_KEEP_ALIVE		1	/* Enable the keep alive feature */
 #define ENABLE_DOWNLOAD				1	/* Enable the image download feature */
 #define ENABLE_IMAGE_TRANSFER		1	/* Enable the image transfer feature */
 #define ENABLE_SFLASH_MANAGEMENT	1	/* Enable the SPI FLASH management feature */
@@ -98,7 +98,7 @@ extern "C" {
 #if IS_COORD
 #define ENABLE_BOOT_SERVER_ON_HOST	1	/* If set to 1, the Boot Server of the coordinator is embedded in the host application (this FW) */
 #else
-#define ENABLE_BOOT_CLIENT_ON_HOST	1	/* If set to 1, the Boot Client of the device is embedded in the host application (this FW) */
+#define ENABLE_BOOT_CLIENT_ON_HOST	0	/* If set to 1, the Boot Client of the device is embedded in the host application (this FW) */
 #endif
 
 /* Other settings */

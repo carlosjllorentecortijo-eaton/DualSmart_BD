@@ -149,11 +149,11 @@ static g3_msg_t* g3_check_fast_restore(void)
 	if (RTOS_GET_MSG_TIMEOUT(g3_queueHandle, &task_msg, TIMEOUT_FAST_RESTORE))
 	{
 		g3_msg = task_msg.data;
-		cmd_id = g3_msg->cmd_id;
+		cmd_id = g3_msg->command_id;
 
 		if (cmd_id == HIF_BOOT_DEV_START_CNF)
 		{
-			const BOOT_DeviceStartConfirm_t *dev_start_cnf = g3_msg->buffer;
+			const BOOT_DeviceStartConfirm_t *dev_start_cnf = g3_msg->payload;
 
 			if (dev_start_cnf->status == G3_SUCCESS)
 			{
