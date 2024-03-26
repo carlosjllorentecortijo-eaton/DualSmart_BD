@@ -4,3 +4,5 @@
 # Builds and linker files
 COORD/
 DEVICE/
+
+.settings/language.settings.xml
