@@ -26,7 +26,7 @@
 #include <g3_app_keep_alive.h>
 #include <g3_app_last_gasp.h>
 #include <user_g3_common.h>
-#include "command_class.h"
+#include <CommandClass.h>
 
 /** @addtogroup User_App
   * @{
@@ -868,6 +868,10 @@ void UserG3_MsgHandler(const g3_msg_t *g3_msg)
 		RAISE_USER_EVENT(USEREVT_G3_UDP_DATA_CNF, cnf_ok);
         break;
     case HIF_UDP_DATA_IND:
+    	if (b_is_udp_data_custom(g3_msg->payload))
+    	{
+    		action_on_rx(g3_msg->payload);
+    	}
     	if (userg3_handle_udp_data_ind(g3_msg->payload))
     	{
     		RAISE_USER_EVENT(USEREVT_G3_UDP_DATA_IND, true);
@@ -889,7 +893,6 @@ void UserG3_MsgHandler(const g3_msg_t *g3_msg)
         RAISE_USER_EVENT(USEREVT_G3_ICMP_ECHOREQ_IND, true);
         break;
     default:
-		action_on_rx(g3_msg->payload);
         break;
     }
 }
