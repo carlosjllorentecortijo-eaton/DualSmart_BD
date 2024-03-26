@@ -1,5 +1,5 @@
 /**
- * @file command_fsm.h
+ * @file CustomUserIfFsm.h
  * @author E0768084 (CarlosJLlorentCortijo@eaton.com)
  * @brief 
  * @version 0.1
@@ -8,13 +8,13 @@
  * @copyright Copyright (c) 2024
  * 
  */
-#ifndef CUSTOM_USER_IF_FSM
-#define CUSTOM_USER_IF_FSM
+#ifndef B5BEBCD7_5293_4399_9499_7023A767722E
+#define B5BEBCD7_5293_4399_9499_7023A767722E
 
 /* ---------------------------------------------------- INCLUDES ---------------------------------------------------- */
+#include <Fsm.h>
 #include <stdint.h>
 #include "user_terminal.h"
-#include "fsm.h"
 
 /* ----------------------------------------------------- TYPEDEF ---------------------------------------------------- */
 typedef struct custom_user_if_fsm_s custom_user_if_fsm_t;
@@ -36,4 +36,4 @@ void reset_custom_user_if_fsm();
 void user_term_state_custom(user_term_action_t action);
 void init_custom_user_if_fsm();
 
-#endif /* CUSTOM_USER_IF_FSM */
+#endif /* B5BEBCD7_5293_4399_9499_7023A767722E */

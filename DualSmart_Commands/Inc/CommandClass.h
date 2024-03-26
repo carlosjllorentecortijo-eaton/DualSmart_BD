@@ -1,5 +1,5 @@
 /**
- * @file command_class.h
+ * @file CommandClass.h
  * @author E0768084 (CarlosJLlorentCortijo@eaton.com)
  * @brief This header file defines the class that rules the behavior of the commands in both coordinator and device side.
  * @version 0.1
@@ -9,14 +9,14 @@
  * 
  */
 
-#ifndef COMMAND_CLASS
-#define COMMAND_CLASS
+#ifndef E8E2567B_EB62_42B9_BD80_08ED4D22C324
+#define E8E2567B_EB62_42B9_BD80_08ED4D22C324
 
 /* ---------------------------------------------------- INCLUDES ---------------------------------------------------- */
+#include <CustomUserIfFsm.h>
+#include <CustomUserRxThread.h>
 #include <stdint.h>
 #include "user_if.h"
-#include "custom_user_if_fsm.h"
-#include "custom_user_rx_thread.h"
 
 /* ----------------------------------------------------- DEFINES ---------------------------------------------------- */
 #define IPV6_MULTICAST_ADDR 	{ 0xFF, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01 }
@@ -49,17 +49,18 @@ struct command_class_s {
     uint8_t ui8_menu_number;
     uint8_t ui8_command_id;
     void (*pf_action_on_selection_cb)(custom_user_if_fsm_t* custom_user_if_fsm);
-    void (*pf_action_on_rx_cb)(uint8_t* data);
+    void (*pf_action_on_rx_cb)(const uint8_t* data);
     void* p_user_data;
 };
 
 /* ------------------------------------------------ PUBLIC FUNCTIONS ------------------------------------------------ */
 void menu_generation();
-void action_on_selection(uint8_t ui8_user_input, custom_user_if_fsm_t* custom_user_if_fsm);
-void action_on_rx(uint8_t* data);
+void action_on_selection(const uint8_t ui8_user_input, custom_user_if_fsm_t* custom_user_if_fsm);
+void action_on_rx(const void* payload);
+bool b_is_udp_data_custom(const void* payload);
 
 void init_command_list();
 void populate_command_list();
 
 
-#endif /* COMMAND_CLASS */
+#endif /* E8E2567B_EB62_42B9_BD80_08ED4D22C324 */

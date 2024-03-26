@@ -1,5 +1,5 @@
 /**
- * @file fsm.h
+ * @file Fsm.h
  * @author E0768084 (CarlosJLlorentCortijo@eaton.com)
  * @brief This file contains the datatype definitions and functions related to the Mealy FSM implementation.
  * @version 0.1
@@ -9,8 +9,8 @@
  * 
  */
 
-#ifndef FSM
-#define FSM
+#ifndef CE4FDAF6_73E2_4FB0_8523_41BCDA517BAB
+#define CE4FDAF6_73E2_4FB0_8523_41BCDA517BAB
 
 typedef struct fsm_s fsm_t;
 
@@ -44,4 +44,4 @@ void fsm_fire (fsm_t* this);
 void fsm_destroy (fsm_t* this);
 
 
-#endif /* FSM */
+#endif /* CE4FDAF6_73E2_4FB0_8523_41BCDA517BAB */

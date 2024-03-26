@@ -1,5 +1,5 @@
 /**
- * @file fsm.c
+ * @file Fsm.c
  * @author E0768084 (CarlosJLlorentCortijo@eaton.com)
  * @brief Mealy state machine implementation
  * @version 0.1
@@ -9,7 +9,8 @@
  * 
  */
 
-#include "fsm.h"
+#include <Fsm.h>
+
 #include "mem_pool.h"
 
 /**
