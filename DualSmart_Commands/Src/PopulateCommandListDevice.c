@@ -9,7 +9,7 @@
  * 
  */
 
-#if IS_COORD == 0
+#if !IS_COORD 
 
 /* ---------------------------------------------------- INCLUDES ---------------------------------------------------- */
 #include <stdio.h>
@@ -20,7 +20,7 @@
 #include "CommandClass.h"
 #include "CustomUserIfFsm.h"
 #include "CustomUserRxThread.h"
-#include "pwm.h"
+#include "StmPwmControl.h"
 
 /* ----------------------------------------------------- MACROS ----------------------------------------------------- */
 #define ADD_COMMAND(index_, command_)   strncpy(p_command_list[index_].ui8_menu_text, command_.ui8_menu_text, 128); \
@@ -40,96 +40,105 @@ static uint8_t ui8_led_on;
 /* ------------------------------------------- COMMAND FUNCTION DEFINITION ------------------------------------------ */
 
 /* -------------------------------------------------- SINGLE LED OFF ------------------------------------------------- */
-void single_led_off_on_rx_cb(const uint8_t* data) {
-    changeDimLevelPwmDutyCycle( LED_DIM_LEVEL_0);
-    change_desired_led_current( 0 );
+void single_led_off_on_rx_cb(const uint8_t* data, custom_user_rx_data_t* custom_user_rx_data) {
+	PWMInterface_t* led1_pwm_interface = StmPwmControl_GetPWMInterface(&custom_user_rx_data->v_led1_pwm);
+	led1_pwm_interface->pf_change_duty_cycle(&custom_user_rx_data->v_led1_pwm, 100);
     ui8_led_on = 0;
+    custom_user_rx_data->b_on_init = false;
 }
 
 /* ------------------------------------------------- SINGLE LED DIM1 ------------------------------------------------ */
-void single_led_dim1_on_rx_cb(const uint8_t* data) {
-    changeDimLevelPwmDutyCycle( LED_DIM_LEVEL_25);
-    change_desired_led_current( LUMINARE_MAX_CURRENT * 0.25 );
+void single_led_dim1_on_rx_cb(const uint8_t* data, custom_user_rx_data_t* custom_user_rx_data) {
+	PWMInterface_t* led1_pwm_interface = StmPwmControl_GetPWMInterface(&custom_user_rx_data->v_led1_pwm);
+	led1_pwm_interface->pf_change_duty_cycle(&custom_user_rx_data->v_led1_pwm, 75);
     ui8_led_on = 1;
+    custom_user_rx_data->b_on_init = false;
 }
 
 /* ------------------------------------------------- SINGLE LED DIM2 ------------------------------------------------ */
-void single_led_dim2_on_rx_cb(const uint8_t* data) {
-    changeDimLevelPwmDutyCycle( LED_DIM_LEVEL_50);
-    change_desired_led_current( LUMINARE_MAX_CURRENT * 0.5 );
+void single_led_dim2_on_rx_cb(const uint8_t* data, custom_user_rx_data_t* custom_user_rx_data) {
+	PWMInterface_t* led1_pwm_interface = StmPwmControl_GetPWMInterface(&custom_user_rx_data->v_led1_pwm);
+	led1_pwm_interface->pf_change_duty_cycle(&custom_user_rx_data->v_led1_pwm, 50);
     ui8_led_on = 1;
+    custom_user_rx_data->b_on_init = false;
 }
 
 /* ------------------------------------------------- SINGLE LED DIM3 ------------------------------------------------ */
-void single_led_dim3_on_rx_cb(const uint8_t* data) {
-    changeDimLevelPwmDutyCycle( LED_DIM_LEVEL_75);
-    change_desired_led_current( LUMINARE_MAX_CURRENT * 0.75 );
+void single_led_dim3_on_rx_cb(const uint8_t* data, custom_user_rx_data_t* custom_user_rx_data) {
+	PWMInterface_t* led1_pwm_interface = StmPwmControl_GetPWMInterface(&custom_user_rx_data->v_led1_pwm);
+	led1_pwm_interface->pf_change_duty_cycle(&custom_user_rx_data->v_led1_pwm, 25);
     ui8_led_on = 1;
+    custom_user_rx_data->b_on_init = false;
 }
 
 /* ------------------------------------------------- SINGLE LED DIM4 ------------------------------------------------ */
-void single_led_dim4_on_rx_cb(const uint8_t* data) {
-    changeDimLevelPwmDutyCycle( LED_DIM_LEVEL_100);
-    change_desired_led_current( LUMINARE_MAX_CURRENT );
+void single_led_dim4_on_rx_cb(const uint8_t* data, custom_user_rx_data_t* custom_user_rx_data) {
+	PWMInterface_t* led1_pwm_interface = StmPwmControl_GetPWMInterface(&custom_user_rx_data->v_led1_pwm);
+	led1_pwm_interface->pf_change_duty_cycle(&custom_user_rx_data->v_led1_pwm, 0);
     ui8_led_on = 1;
+    custom_user_rx_data->b_on_init = false;
 }
 
 /* ------------------------------------------------- SINGLE LED ON ------------------------------------------------ */
-void single_led_on_on_rx_cb(const uint8_t* data) {
-    changeDimLevelPwmDutyCycle( LED_DIM_LEVEL_100);
-    change_desired_led_current( LUMINARE_MAX_CURRENT );
+void single_led_on_on_rx_cb(const uint8_t* data, custom_user_rx_data_t* custom_user_rx_data) {
+	PWMInterface_t* led1_pwm_interface = StmPwmControl_GetPWMInterface(&custom_user_rx_data->v_led1_pwm);
+	led1_pwm_interface->pf_change_duty_cycle(&custom_user_rx_data->v_led1_pwm, 0);
     ui8_led_on = 1;
+    custom_user_rx_data->b_on_init = false;
 }
 
 /* ------------------------------------------------- SINGLE LED CUSTOM ------------------------------------------------ */
-void single_led_custom_on_rx_cb(const uint8_t* data) {
+void single_led_custom_on_rx_cb(const uint8_t* data, custom_user_rx_data_t* custom_user_rx_data) {
     uint8_t ui8_pwm_duty_cycle = data[0];
-    changeDimLevelPwmDutyCycle( LED_DIM_LEVEL_0 - (ui8_pwm_duty_cycle / 100) * LED_DIM_LEVEL_0 );
-    change_desired_led_current( (ui8_pwm_duty_cycle / 100) * LUMINARE_MAX_CURRENT );
+    PWMInterface_t* led1_pwm_interface = StmPwmControl_GetPWMInterface(&custom_user_rx_data->v_led1_pwm);
+	led1_pwm_interface->pf_change_duty_cycle(&custom_user_rx_data->v_led1_pwm, (ui8_pwm_duty_cycle / 100));
     if ( ui8_pwm_duty_cycle == 0 ) {
         ui8_led_on = 0;
     } else {
         ui8_led_on = 1;
     }
+    custom_user_rx_data->b_on_init = false;
 }
 
 /* ------------------------------------------------- ALL LED ON ------------------------------------------------ */
-void all_led_on_on_rx_cb(const uint8_t* data) {
-    changeDimLevelPwmDutyCycle( LED_DIM_LEVEL_100);
-    change_desired_led_current( LUMINARE_MAX_CURRENT );
+void all_led_on_on_rx_cb(const uint8_t* data, custom_user_rx_data_t* custom_user_rx_data) {
+	PWMInterface_t* led1_pwm_interface = StmPwmControl_GetPWMInterface(&custom_user_rx_data->v_led1_pwm);
+	led1_pwm_interface->pf_change_duty_cycle(&custom_user_rx_data->v_led1_pwm, 0);
     ui8_led_on = 1;
+    custom_user_rx_data->b_on_init = false;
 }
 
 /* ------------------------------------------------- ALL LED OFF ------------------------------------------------ */
-void all_led_off_on_rx_cb(const uint8_t* data) {
-    changeDimLevelPwmDutyCycle( LED_DIM_LEVEL_0);
-    change_desired_led_current( 0 );
+void all_led_off_on_rx_cb(const uint8_t* data, custom_user_rx_data_t* custom_user_rx_data) {
+	PWMInterface_t* led1_pwm_interface = StmPwmControl_GetPWMInterface(&custom_user_rx_data->v_led1_pwm);
+	led1_pwm_interface->pf_change_duty_cycle(&custom_user_rx_data->v_led1_pwm, 100);
     ui8_led_on = 0;
+    custom_user_rx_data->b_on_init = false;
 }
 
 /* ------------------------------------------------- ALL LED CUSTOM ------------------------------------------------ */
-void all_led_custom_on_rx_cb(const uint8_t* data) {
+void all_led_custom_on_rx_cb(const uint8_t* data, custom_user_rx_data_t* custom_user_rx_data) {
     uint8_t ui8_pwm_duty_cycle = data[0];
-    changeDimLevelPwmDutyCycle( LED_DIM_LEVEL_0 - (ui8_pwm_duty_cycle / 100) * LED_DIM_LEVEL_0 );
-    change_desired_led_current( (ui8_pwm_duty_cycle / 100) * LUMINARE_MAX_CURRENT );
+    PWMInterface_t* led1_pwm_interface = StmPwmControl_GetPWMInterface(&custom_user_rx_data->v_led1_pwm);
+	led1_pwm_interface->pf_change_duty_cycle(&custom_user_rx_data->v_led1_pwm, (ui8_pwm_duty_cycle / 100));
     if ( ui8_pwm_duty_cycle == 0 ) {
         ui8_led_on = 0;
     } else {
         ui8_led_on = 1;
     }
+    custom_user_rx_data->b_on_init = false;
 }
 
 /* ------------------------------------------------- ALL LED TOGGLE ------------------------------------------------ */
-void all_led_toggle_on_rx_cb(const uint8_t* data) {
+void all_led_toggle_on_rx_cb(const uint8_t* data, custom_user_rx_data_t* custom_user_rx_data) {
+	PWMInterface_t* led1_pwm_interface = StmPwmControl_GetPWMInterface(&custom_user_rx_data->v_led1_pwm);
+	led1_pwm_interface->pf_change_duty_cycle(&custom_user_rx_data->v_led1_pwm, ui8_led_on ? 100 : 0);
     if ( ui8_led_on == 0 ) {
-        changeDimLevelPwmDutyCycle( LED_DIM_LEVEL_100);
-        change_desired_led_current( LUMINARE_MAX_CURRENT );
         ui8_led_on = 1;
     } else {
-        changeDimLevelPwmDutyCycle( LED_DIM_LEVEL_0);
-        change_desired_led_current( 0 );
         ui8_led_on = 0;
     }
+    custom_user_rx_data->b_on_init = false;
 }
 
 /* ------------------------------------------------- PUBLIC FUNTION ------------------------------------------------- */

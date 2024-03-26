@@ -10,21 +10,30 @@
  */
 
 /* ---------------------------------------------------- INCLUDES ---------------------------------------------------- */
-#include <CustomUserRxThread.h>
 #include <stdint.h>
+#include <stdbool.h>
 #include "FreeRTOS.h"
 #include "task.h"
 #include "semphr.h"
 #include "cmsis_os.h"
-#if IS_COORD == 0
-#include "led_command_process.h"
-#include "pwm.h"
+#include "CustomUserRxThread.h"
+#if !IS_COORD
+#include "stm32f4xx_hal_tim.h"
+#include "stm32f4xx_hal_adc.h"
+#include "StmPwmControl.h"
+#include "PWMInterface.h"
+#include "StmAdcControl.h"
+#include "ADCInterface.h"
+#include "main.h"
+#endif
+
+#if !IS_COORD
+extern TIM_HandleTypeDef htim1;
+extern TIM_HandleTypeDef htim3;
 #endif
 
 /* ------------------------------------------------ PRIVATE VARIABLES ----------------------------------------------- */
-static uint16_t ui16_desired_led_current;
-static custom_user_rx_data_t custom_user_rx_data;
-static osMutexId_t custom_user_rx_mutexHandle;
+custom_user_rx_data_t custom_user_rx_data;
 
 /* ------------------------------------------------ PRIVATE FUNCTIONS ----------------------------------------------- */
 /**
@@ -37,9 +46,10 @@ void custom_user_rx_exec() {
 
     /* Initialize wake time and LED to ON */
     xLastWakeTime = xTaskGetTickCount();
-    #if IS_COORD == 0
+    #if !IS_COORD 
     static uint16_t ui16_count = 0;
-    changeDimLevelPwmDutyCycle( LED_ON);
+    static bool ui8_direction_indicator = true;
+    PWMInterface_t* led1_pwm_interface = StmPwmControl_GetPWMInterface(&custom_user_rx_data.v_led1_pwm);
     #endif
 
     /* Infinite loop */
@@ -47,39 +57,50 @@ void custom_user_rx_exec() {
         // Wait for the 10 Ms to execute the LED oeprations
         vTaskDelayUntil(&xLastWakeTime, xFrequency);
 
-        #if IS_COORD == 0
-        xSemaphoreTake(custom_user_rx_mutexHandle, portMAX_DELAY );
-        currentControlLoop(ui16_desired_led_current);
-        xSemaphoreGive(custom_user_rx_mutexHandle);
-
+        #if !IS_COORD
         // to get the info that the controller is awake
-        if(ui16_count++ >= 1000) {
-        	HAL_GPIO_TogglePin( DEBUG_LED1_GPIO_Port, DEBUG_LED1_Pin);
-            ui16_count = 0;
+        if(custom_user_rx_data.b_on_init && (ui16_count % 50) == 0) {
+			led1_pwm_interface->pf_change_duty_cycle(&custom_user_rx_data.v_led1_pwm, (uint8_t)(ui16_count/20));
+		}
+
+        if(ui8_direction_indicator) {
+        	ui16_count++;
+        } else if (!ui8_direction_indicator) {
+        	ui16_count--;
         }
+
+        if(ui8_direction_indicator && ui16_count >= 2000) {
+        	ui8_direction_indicator = false;
+		} else if (!ui8_direction_indicator && ui16_count <= 0) {
+			ui8_direction_indicator = true;
+		}
         #endif
     }
 }
 
 /* ------------------------------------------------ PUBLIC FUNCTIONS ------------------------------------------------ */
 /**
- * @brief 
- * 
- * @param led_current_ma 
- */
-void change_desired_led_current(uint16_t led_current_ma) {
-	xSemaphoreTake(custom_user_rx_mutexHandle, portMAX_DELAY );
-    ui16_desired_led_current = led_current_ma;
-    xSemaphoreGive(custom_user_rx_mutexHandle);
-}
-
-/**
  * @brief Custom User RX Thread entry point.
  * 
  */
-void start_custom_user_rx(void* custom_user_rx_mutex){
-    custom_user_rx_mutexHandle = *((osMutexId_t*)custom_user_rx_mutex);
-    custom_user_rx_data.dummy_data = 0;
+void start_custom_user_rx(){
+
+	custom_user_rx_data.b_on_init = true;
+
+    /* Initialize PWM Objects */
+    #if !IS_COORD
+    StmPwmControl_InitPwm(&custom_user_rx_data.v_led1_pwm, &htim3, TIM_CHANNEL_3, false);
+    StmPwmControl_InitPwm(&custom_user_rx_data.i_led1_pwm, &htim1, TIM_CHANNEL_1, false);
+    #endif
+
+    /* Initialize ADC Objects */
+	#if !IS_COORD
+    StmAdcControl_InitAdcObj(&custom_user_rx_data.hw_revision_adc, 	&hadc1, ADC_CHANNEL_7);
+    StmAdcControl_InitAdcObj(&custom_user_rx_data.i_led1_adc,		&hadc1, ADC_CHANNEL_2);
+    StmAdcControl_InitAdcObj(&custom_user_rx_data.temp_adc, 		&hadc1, ADC_CHANNEL_TEMPSENSOR);
+    StmAdcControl_InitAdcObj(&custom_user_rx_data.v_28v_adc, 		&hadc1, ADC_CHANNEL_0);
+    StmAdcControl_InitAdcObj(&custom_user_rx_data.v_led1_adc, 		&hadc1, ADC_CHANNEL_1);
+    #endif
 
     custom_user_rx_exec();
 }

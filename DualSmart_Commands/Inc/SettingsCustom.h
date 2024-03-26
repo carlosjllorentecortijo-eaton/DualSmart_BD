@@ -1,12 +1,16 @@
-/*
- * Settings.h
- *
- *  Created on: Mar 26, 2024
- *      Author: E0768084
+/**
+ * @file SettingsCustom.h
+ * @author E0768084 (CarlosJLlorentCortijo@eaton.com)
+ * @brief 
+ * @version 0.1
+ * @date 2024-03-26
+ * 
+ * @copyright Copyright (c) 2024
+ * 
  */
 
-#ifndef INC_SETTINGSCUSTOM_H_
-#define INC_SETTINGSCUSTOM_H_
+#ifndef E70511A6_5C5C_4EDF_857A_98853593747F
+#define E70511A6_5C5C_4EDF_857A_98853593747F
 
 /* Debug related */
 #define DEBUG_LEVEL_NONE			0 /* Disabled */
@@ -18,4 +22,4 @@
 /* Debug prints */
 #define DEBUG_COMMANDS            DEBUG_LEVEL_FULL
 
-#endif /* INC_SETTINGSCUSTOM_H_ */
+#endif /* E70511A6_5C5C_4EDF_857A_98853593747F */

@@ -49,7 +49,7 @@ struct command_class_s {
     uint8_t ui8_menu_number;
     uint8_t ui8_command_id;
     void (*pf_action_on_selection_cb)(custom_user_if_fsm_t* custom_user_if_fsm);
-    void (*pf_action_on_rx_cb)(const uint8_t* data);
+    void (*pf_action_on_rx_cb)(const uint8_t* data, custom_user_rx_data_t* custom_user_rx_data);
     void* p_user_data;
 };
 

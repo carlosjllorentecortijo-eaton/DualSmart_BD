@@ -22,6 +22,7 @@
 
 /* ------------------------------------------------ PRIVATE VARIABLES ----------------------------------------------- */
 extern command_class_t p_command_list[NUMBER_COMMANDS];
+extern custom_user_rx_data_t custom_user_rx_data;
 
 /* --------------------------------------------- MENU CREATION FUNCTION --------------------------------------------- */
 void menu_generation() {
@@ -87,7 +88,7 @@ void action_on_rx(const void* payload) {
 				#endif
 				PRINT_COLOR("CUSTOM COMMAND RECEIVED 0x%02x\n", color_green, ui8_command_id);
 				if ( p_command_list[i].pf_action_on_rx_cb != NULL ){
-					p_command_list[i].pf_action_on_rx_cb(pui8_data);
+					p_command_list[i].pf_action_on_rx_cb(pui8_data, &custom_user_rx_data);
 				}
 				return;
 			}
@@ -131,8 +132,7 @@ bool b_is_udp_data_custom(const void* payload) {
 		PRINT_COLOR("No command found with command id %u\n", color_red, ui8_command_id);
 		#endif
 	}
-
-    return false;
+	return false;
 }
 
 /**
